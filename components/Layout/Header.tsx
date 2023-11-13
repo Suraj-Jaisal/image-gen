@@ -5,14 +5,19 @@ import Navigation from "./Navigation";
 import { AiOutlineSearch } from "react-icons/ai";
 import { CgProfile } from "react-icons/cg";
 import { FaBars } from "react-icons/fa";
+import { User } from "@clerk/nextjs/server";
+import DropDown from "./DropDown";
 
 type Props = {
   activeItem: number;
+  user: User | null;
+  isSellerExist: boolean | undefined;
 };
 
-const Header = ({ activeItem }: Props) => {
+const Header = ({ user, activeItem, isSellerExist }: Props) => {
   const [active, setactive] = useState(false);
   const [open, setOpen] = useState(false);
+  const [activeProfile, setActiveProfile] = useState(false);
   if (typeof window !== "undefined") {
     window.addEventListener("scroll", () => {
       if (window.scrollY > 100) {
@@ -28,6 +33,10 @@ const Header = ({ activeItem }: Props) => {
     if (target.id === "screen") {
       setOpen(!open);
     }
+  };
+
+  const handleProfile = () => {
+    setActiveProfile(!activeProfile);
   };
   return (
     <div
@@ -48,10 +57,20 @@ const Header = ({ activeItem }: Props) => {
         </div>
         <div className="flex items-center ml-10">
           <AiOutlineSearch className="text-[25px] mr-5 cursor-pointer" />
-          {/* todo authentication */}
-          <Link href="/sign-in">
-            <CgProfile className="text-[25px] cursor-pointer" />
-          </Link>
+          {user ? (
+            <div>
+              <DropDown
+                user={user}
+                setOpen={setOpen}
+                handleProfile={handleProfile}
+                isSellerExist={isSellerExist}
+              />
+            </div>
+          ) : (
+            <Link href="/sign-in">
+              <CgProfile className="text-[25px] cursor-pointer" />
+            </Link>
+          )}
         </div>
       </div>
 
