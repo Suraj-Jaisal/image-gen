@@ -11,7 +11,7 @@ import DropDown from "./DropDown";
 type Props = {
   activeItem: number;
   user: User | null;
-  isSellerExist: boolean | undefined;
+  isSellerExist: boolean;
 };
 
 const Header = ({ user, activeItem, isSellerExist }: Props) => {
