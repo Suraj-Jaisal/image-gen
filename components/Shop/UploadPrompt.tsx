@@ -10,6 +10,7 @@ import {
 } from "@nextui-org/react";
 import axios from "axios";
 import Image from "next/image";
+import { redirect } from "next/navigation";
 import { ChangeEvent, DragEvent, useState } from "react";
 import toast from "react-hot-toast";
 import { IoDocumentAttachOutline } from "react-icons/io5";
@@ -169,11 +170,12 @@ const UploadPrompt = (props: Props) => {
           price: "",
           tags: "",
         });
+        redirect("/shop/prompts");
       })
       .catch((error) => {
         setIsLoading(false);
         console.log(error);
-        toast.error(error.data.message);
+        toast.error("upload prompt failed");
       });
   };
 
